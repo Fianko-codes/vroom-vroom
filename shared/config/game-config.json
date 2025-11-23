@@ -1,0 +1,752 @@
+{
+  "game": {
+    "name": "Void Drifters",
+    "version": "1.0.0",
+    "genre": "Multiplayer Anti-Gravity Racing",
+    "tagline": "Master the void. Drift the impossible.",
+    "maxPlayers": 12,
+    "minPlayers": 2,
+    "targetFrameRate": 60,
+    "tickRate": 60
+  },
+
+  "server": {
+    "host": "localhost",
+    "port": 3000,
+    "physicsEngine": "cannon-es",
+    "updateFrequency": 60,
+    "maxLatency": 250,
+    "interpolationDelay": 100,
+    "snapshotRate": 20,
+    "inputBufferSize": 32,
+    "reconciliationEnabled": true,
+    "lagCompensation": true,
+    "antiCheat": {
+      "enabled": true,
+      "maxSpeedThreshold": 150,
+      "positionValidation": true,
+      "inputRateLimit": 120
+    }
+  },
+
+  "client": {
+    "renderer": "three.js",
+    "antialias": true,
+    "shadows": false,
+    "postProcessing": {
+      "bloom": true,
+      "motionBlur": true,
+      "chromaticAberration": false,
+      "vignette": true
+    },
+    "particleQuality": "high",
+    "maxParticles": 2000,
+    "lodEnabled": true,
+    "frustumCulling": true
+  },
+
+  "physics": {
+    "world": {
+      "gravity": [0, -15, 0],
+      "iterations": 10,
+      "tolerance": 0.001,
+      "fixedTimeStep": 0.01667,
+      "maxSubSteps": 3
+    },
+    "materials": {
+      "car": {
+        "friction": 0.3,
+        "restitution": 0.4
+      },
+      "track": {
+        "friction": 0.8,
+        "restitution": 0.2
+      },
+      "wall": {
+        "friction": 0.1,
+        "restitution": 0.8
+      }
+    }
+  },
+
+  "vehicle": {
+    "name": "Void Wedge Drifter",
+    "dimensions": {
+      "length": 4.5,
+      "width": 2.0,
+      "height": 0.8
+    },
+    "mass": 850,
+    "centerOfMass": [0, -0.2, 0],
+    "hoverHeight": 0.5,
+    "hoverForceMultiplier": 2000,
+    "hoverDamping": 0.8,
+    "maxHoverDistance": 2.0,
+    
+    "thrust": {
+      "maxForce": 4500,
+      "acceleration": 2500,
+      "deceleration": 1800,
+      "boostMultiplier": 1.5,
+      "boostDuration": 2.0,
+      "boostCooldown": 8.0
+    },
+
+    "steering": {
+      "maxTorque": 800,
+      "turnSpeed": 2.5,
+      "returnSpeed": 4.0,
+      "speedSteeringReduction": 0.6,
+      "counterSteerBonus": 1.3
+    },
+
+    "drift": {
+      "enabled": true,
+      "activationSpeed": 30,
+      "lateralFrictionNormal": 0.85,
+      "lateralFrictionDrift": 0.08,
+      "transitionSpeed": 0.15,
+      "cooldown": 3.5,
+      "charges": 3,
+      "chargeRegenTime": 10.0,
+      "minDriftAngle": 15,
+      "perfectDriftAngle": 35,
+      "perfectDriftWindow": 5,
+      "perfectDriftBoost": 1.2
+    },
+
+    "airResistance": {
+      "dragCoefficient": 0.15,
+      "lateralDrag": 0.25,
+      "angularDrag": 0.5
+    },
+
+    "health": {
+      "maxHealth": 100,
+      "respawnTime": 3.0,
+      "invulnerabilityTime": 2.0,
+      "collisionDamage": 15,
+      "wallDamageMultiplier": 0.5
+    },
+
+    "visual": {
+      "bodyColor": "#1a1a1a",
+      "accentColor": "#00ffff",
+      "emissiveIntensity": 2.5,
+      "trailColor": "#00ffff",
+      "trailLength": 50,
+      "trailWidth": 0.3,
+      "thrusterGlowColor": "#ff6600",
+      "thrusterIntensity": 3.0,
+      "driftParticleColor": "#00ffff",
+      "driftParticleCount": 15,
+      "driftParticleLifetime": 0.8
+    }
+  },
+
+  "tracks": [
+    {
+      "id": "neon_circuit",
+      "name": "Neon Circuit",
+      "difficulty": "easy",
+      "laps": 3,
+      "length": 1200,
+      "width": 20,
+      "checkpoints": 8,
+      "description": "A gentle introductory course with wide corners",
+      "recordTime": 0,
+      "unlockRequirement": "none",
+      "environment": {
+        "fogColor": "#000000",
+        "fogDensity": 0.001,
+        "ambientLight": "#111111",
+        "trackColor": "#0a0a0a",
+        "edgeColor": "#00ffff",
+        "edgeEmissive": 1.5
+      },
+      "features": {
+        "jumps": 2,
+        "boostPads": 5,
+        "shortcuts": 1,
+        "hazards": 0
+      }
+    },
+    {
+      "id": "helix_descent",
+      "name": "Helix Descent",
+      "difficulty": "medium",
+      "laps": 3,
+      "length": 1800,
+      "width": 18,
+      "checkpoints": 12,
+      "description": "A spiraling descent with tight banking",
+      "recordTime": 0,
+      "unlockRequirement": "complete_5_races",
+      "environment": {
+        "fogColor": "#000000",
+        "fogDensity": 0.002,
+        "ambientLight": "#0f0f1a",
+        "trackColor": "#0a0a0a",
+        "edgeColor": "#ff00ff",
+        "edgeEmissive": 2.0
+      },
+      "features": {
+        "jumps": 4,
+        "boostPads": 8,
+        "shortcuts": 2,
+        "hazards": 3
+      }
+    },
+    {
+      "id": "void_rift",
+      "name": "Void Rift",
+      "difficulty": "hard",
+      "laps": 3,
+      "length": 2400,
+      "width": 15,
+      "checkpoints": 16,
+      "description": "A chaotic track with disappearing sections",
+      "recordTime": 0,
+      "unlockRequirement": "reach_level_10",
+      "environment": {
+        "fogColor": "#000000",
+        "fogDensity": 0.003,
+        "ambientLight": "#1a0f0f",
+        "trackColor": "#0a0a0a",
+        "edgeColor": "#ff0000",
+        "edgeEmissive": 2.5
+      },
+      "features": {
+        "jumps": 6,
+        "boostPads": 12,
+        "shortcuts": 3,
+        "hazards": 8,
+        "specialMechanics": ["disappearing_sections", "gravity_wells"]
+      }
+    },
+    {
+      "id": "infinity_loop",
+      "name": "Infinity Loop",
+      "difficulty": "expert",
+      "laps": 5,
+      "length": 1500,
+      "width": 16,
+      "checkpoints": 10,
+      "description": "A figure-8 with inverted sections",
+      "recordTime": 0,
+      "unlockRequirement": "win_10_races",
+      "environment": {
+        "fogColor": "#000000",
+        "fogDensity": 0.0015,
+        "ambientLight": "#0f1a0f",
+        "trackColor": "#0a0a0a",
+        "edgeColor": "#00ff00",
+        "edgeEmissive": 2.0
+      },
+      "features": {
+        "jumps": 8,
+        "boostPads": 10,
+        "shortcuts": 4,
+        "hazards": 5,
+        "specialMechanics": ["inverted_gravity", "zero_g_zones"]
+      }
+    }
+  ],
+
+  "powerups": [
+    {
+      "id": "speed_boost",
+      "name": "Nitro Burst",
+      "duration": 2.0,
+      "effect": "speed_multiplier",
+      "value": 1.5,
+      "cooldown": 8.0,
+      "rarity": "common",
+      "visualEffect": "blue_trail",
+      "soundEffect": "boost_whoosh"
+    },
+    {
+      "id": "shield",
+      "name": "Void Shield",
+      "duration": 5.0,
+      "effect": "invulnerability",
+      "value": 1,
+      "cooldown": 15.0,
+      "rarity": "uncommon",
+      "visualEffect": "cyan_bubble",
+      "soundEffect": "shield_activate"
+    },
+    {
+      "id": "emp_blast",
+      "name": "EMP Blast",
+      "duration": 0.5,
+      "effect": "stun_nearby",
+      "value": 3.0,
+      "cooldown": 20.0,
+      "rarity": "rare",
+      "radius": 15,
+      "visualEffect": "electric_pulse",
+      "soundEffect": "emp_zap"
+    },
+    {
+      "id": "ghost_mode",
+      "name": "Phase Shift",
+      "duration": 3.0,
+      "effect": "no_collision",
+      "value": 1,
+      "cooldown": 25.0,
+      "rarity": "rare",
+      "visualEffect": "transparent_flicker",
+      "soundEffect": "phase_shift"
+    },
+    {
+      "id": "gravity_well",
+      "name": "Gravity Anchor",
+      "duration": 4.0,
+      "effect": "trap",
+      "value": 0.3,
+      "cooldown": 18.0,
+      "rarity": "uncommon",
+      "radius": 12,
+      "visualEffect": "purple_vortex",
+      "soundEffect": "gravity_hum"
+    }
+  ],
+
+  "gameModes": [
+    {
+      "id": "race",
+      "name": "Circuit Race",
+      "description": "Classic lap-based racing",
+      "minPlayers": 2,
+      "maxPlayers": 12,
+      "laps": 3,
+      "respawnEnabled": true,
+      "powerupsEnabled": true,
+      "collisionEnabled": true,
+      "pointsSystem": {
+        "1st": 25,
+        "2nd": 18,
+        "3rd": 15,
+        "4th": 12,
+        "5th": 10,
+        "6th": 8,
+        "7th": 6,
+        "8th": 4,
+        "9th": 2,
+        "10th": 1,
+        "11th": 0,
+        "12th": 0
+      }
+    },
+    {
+      "id": "time_trial",
+      "name": "Time Trial",
+      "description": "Solo ghost racing for best time",
+      "minPlayers": 1,
+      "maxPlayers": 1,
+      "laps": 3,
+      "respawnEnabled": true,
+      "powerupsEnabled": false,
+      "collisionEnabled": false,
+      "ghostsEnabled": true,
+      "personalBest": true
+    },
+    {
+      "id": "elimination",
+      "name": "Elimination",
+      "description": "Last place eliminated each lap",
+      "minPlayers": 4,
+      "maxPlayers": 12,
+      "laps": 8,
+      "respawnEnabled": false,
+      "powerupsEnabled": true,
+      "collisionEnabled": true,
+      "eliminationInterval": 30
+    },
+    {
+      "id": "drift_challenge",
+      "name": "Drift Master",
+      "description": "Score points through drifting",
+      "minPlayers": 1,
+      "maxPlayers": 8,
+      "duration": 180,
+      "respawnEnabled": true,
+      "powerupsEnabled": false,
+      "collisionEnabled": true,
+      "scoringSystem": {
+        "driftAngleMultiplier": 10,
+        "driftDurationMultiplier": 5,
+        "comboBonus": 1.5,
+        "perfectDriftBonus": 500
+      }
+    },
+    {
+      "id": "battle_royale",
+      "name": "Void Royale",
+      "description": "Shrinking track, last car standing",
+      "minPlayers": 6,
+      "maxPlayers": 12,
+      "duration": 300,
+      "respawnEnabled": false,
+      "powerupsEnabled": true,
+      "collisionEnabled": true,
+      "shrinkingZone": {
+        "enabled": true,
+        "startDelay": 30,
+        "shrinkInterval": 20,
+        "shrinkSpeed": 2,
+        "damagePerSecond": 10
+      }
+    }
+  ],
+
+  "progression": {
+    "xpPerRace": {
+      "completion": 100,
+      "position": [500, 350, 250, 200, 150, 100, 75, 50, 25, 10, 5, 0],
+      "perfectDrift": 50,
+      "overtake": 10,
+      "fastestLap": 200,
+      "cleanRace": 100
+    },
+    "levels": [
+      { "level": 1, "xpRequired": 0, "reward": "track_neon_circuit" },
+      { "level": 2, "xpRequired": 500, "reward": "color_red" },
+      { "level": 3, "xpRequired": 1200, "reward": "trail_fire" },
+      { "level": 4, "xpRequired": 2000, "reward": "color_blue" },
+      { "level": 5, "xpRequired": 3000, "reward": "track_helix_descent" },
+      { "level": 6, "xpRequired": 4500, "reward": "color_green" },
+      { "level": 7, "xpRequired": 6500, "reward": "trail_lightning" },
+      { "level": 8, "xpRequired": 9000, "reward": "body_angular" },
+      { "level": 9, "xpRequired": 12000, "reward": "color_purple" },
+      { "level": 10, "xpRequired": 15500, "reward": "track_void_rift" },
+      { "level": 15, "xpRequired": 30000, "reward": "trail_rainbow" },
+      { "level": 20, "xpRequired": 50000, "reward": "track_infinity_loop" },
+      { "level": 25, "xpRequired": 75000, "reward": "body_elite" },
+      { "level": 30, "xpRequired": 100000, "reward": "color_gold" }
+    ],
+    "achievements": [
+      {
+        "id": "first_win",
+        "name": "First Victory",
+        "description": "Win your first race",
+        "reward": 500,
+        "icon": "trophy"
+      },
+      {
+        "id": "perfect_drift",
+        "name": "Drift King",
+        "description": "Execute 10 perfect drifts in one race",
+        "reward": 1000,
+        "icon": "drift"
+      },
+      {
+        "id": "clean_racer",
+        "name": "Clean Racer",
+        "description": "Complete a race without any collisions",
+        "reward": 750,
+        "icon": "shield"
+      },
+      {
+        "id": "speed_demon",
+        "name": "Speed Demon",
+        "description": "Reach 150 km/h",
+        "reward": 500,
+        "icon": "speed"
+      },
+      {
+        "id": "veteran",
+        "name": "Veteran Drifter",
+        "description": "Complete 100 races",
+        "reward": 5000,
+        "icon": "star"
+      }
+    ]
+  },
+
+  "customization": {
+    "colors": [
+      { "id": "cyan", "name": "Neon Cyan", "hex": "#00ffff", "unlocked": true },
+      { "id": "red", "name": "Crimson Pulse", "hex": "#ff0000", "unlocked": false, "unlockLevel": 2 },
+      { "id": "blue", "name": "Electric Blue", "hex": "#0066ff", "unlocked": false, "unlockLevel": 4 },
+      { "id": "green", "name": "Toxic Green", "hex": "#00ff00", "unlocked": false, "unlockLevel": 6 },
+      { "id": "purple", "name": "Void Purple", "hex": "#9900ff", "unlocked": false, "unlockLevel": 9 },
+      { "id": "orange", "name": "Solar Flare", "hex": "#ff6600", "unlocked": false, "unlockLevel": 12 },
+      { "id": "pink", "name": "Plasma Pink", "hex": "#ff00ff", "unlocked": false, "unlockLevel": 15 },
+      { "id": "gold", "name": "Champion Gold", "hex": "#ffd700", "unlocked": false, "unlockLevel": 30 }
+    ],
+    "trails": [
+      { "id": "default", "name": "Standard Trail", "unlocked": true },
+      { "id": "fire", "name": "Inferno Trail", "unlocked": false, "unlockLevel": 3 },
+      { "id": "lightning", "name": "Lightning Streak", "unlocked": false, "unlockLevel": 7 },
+      { "id": "rainbow", "name": "Rainbow Drift", "unlocked": false, "unlockLevel": 15 },
+      { "id": "galaxy", "name": "Cosmic Trail", "unlocked": false, "unlockLevel": 20 }
+    ],
+    "bodies": [
+      { "id": "wedge", "name": "Standard Wedge", "unlocked": true },
+      { "id": "angular", "name": "Angular Razor", "unlocked": false, "unlockLevel": 8 },
+      { "id": "sleek", "name": "Sleek Phantom", "unlocked": false, "unlockLevel": 18 },
+      { "id": "elite", "name": "Elite Voidcraft", "unlocked": false, "unlockLevel": 25 }
+    ]
+  },
+
+  "audio": {
+    "music": {
+      "menu": "synth_ambient_loop.mp3",
+      "race": "electronic_racing_loop.mp3",
+      "victory": "victory_fanfare.mp3",
+      "defeat": "defeat_stinger.mp3",
+      "volume": 0.4
+    },
+    "sfx": {
+      "engine_idle": { "file": "engine_hum.mp3", "volume": 0.3, "loop": true },
+      "engine_high": { "file": "engine_high.mp3", "volume": 0.5, "loop": true },
+      "drift_start": { "file": "drift_screech.mp3", "volume": 0.6 },
+      "drift_loop": { "file": "drift_loop.mp3", "volume": 0.4, "loop": true },
+      "boost": { "file": "boost_whoosh.mp3", "volume": 0.7 },
+      "collision": { "file": "metal_crash.mp3", "volume": 0.6 },
+      "powerup_collect": { "file": "pickup_ding.mp3", "volume": 0.5 },
+      "countdown_beep": { "file": "beep.mp3", "volume": 0.6 },
+      "countdown_go": { "file": "go_sound.mp3", "volume": 0.7 },
+      "lap_complete": { "file": "lap_ding.mp3", "volume": 0.5 },
+      "race_finish": { "file": "finish_cheer.mp3", "volume": 0.6 },
+      "ui_click": { "file": "click.mp3", "volume": 0.3 },
+      "ui_hover": { "file": "hover.mp3", "volume": 0.2 }
+    }
+  },
+
+  "ui": {
+    "hud": {
+      "speedometer": {
+        "enabled": true,
+        "position": "bottom-right",
+        "units": "km/h",
+        "maxDisplay": 200
+      },
+      "lapCounter": {
+        "enabled": true,
+        "position": "top-center"
+      },
+      "position": {
+        "enabled": true,
+        "position": "top-left"
+      },
+      "minimap": {
+        "enabled": true,
+        "position": "top-right",
+        "size": 150,
+        "zoom": 1.5
+      },
+      "driftMeter": {
+        "enabled": true,
+        "position": "bottom-left",
+        "showAngle": true,
+        "showMultiplier": true
+      },
+      "boostMeter": {
+        "enabled": true,
+        "position": "bottom-center"
+      },
+      "healthBar": {
+        "enabled": true,
+        "position": "top-left"
+      }
+    },
+    "menus": {
+      "mainMenu": {
+        "buttons": ["play", "garage", "leaderboard", "settings", "quit"],
+        "backgroundParticles": true
+      },
+      "lobby": {
+        "showPlayers": true,
+        "showChat": true,
+        "showTrackPreview": true,
+        "readySystem": true
+      },
+      "garage": {
+        "sections": ["colors", "trails", "bodies", "stats"],
+        "preview3D": true,
+        "rotateModel": true
+      }
+    }
+  },
+
+  "networking": {
+    "events": {
+      "client_to_server": [
+        "player_input",
+        "player_ready",
+        "chat_message",
+        "request_join",
+        "select_car_customization"
+      ],
+      "server_to_client": [
+        "game_state",
+        "player_joined",
+        "player_left",
+        "race_start",
+        "race_end",
+        "checkpoint_passed",
+        "collision_occurred",
+        "powerup_collected",
+        "lap_completed"
+      ]
+    },
+    "compression": {
+      "enabled": true,
+      "algorithm": "msgpack"
+    },
+    "interpolation": {
+      "enabled": true,
+      "delay": 100,
+      "method": "linear"
+    }
+  },
+
+  "controls": {
+    "keyboard": {
+      "thrust": ["KeyW", "ArrowUp"],
+      "brake": ["KeyS", "ArrowDown"],
+      "steerLeft": ["KeyA", "ArrowLeft"],
+      "steerRight": ["KeyD", "ArrowRight"],
+      "drift": ["Space"],
+      "boost": ["ShiftLeft", "ShiftRight"],
+      "useAbility": ["KeyE"],
+      "lookBack": ["KeyC"],
+      "resetCar": ["KeyR"]
+    },
+    "gamepad": {
+      "thrust": "RT",
+      "brake": "LT",
+      "steerAxis": "LeftStickX",
+      "drift": "A",
+      "boost": "B",
+      "useAbility": "X",
+      "lookBack": "Y",
+      "resetCar": "Start"
+    },
+    "mobile": {
+      "layout": "hybrid",
+      "virtualJoystick": {
+        "enabled": true,
+        "position": "left",
+        "deadzone": 0.15
+      },
+      "buttons": {
+        "drift": { "position": "right-bottom", "size": 80 },
+        "boost": { "position": "right-top", "size": 70 }
+      },
+      "tiltSteering": {
+        "enabled": false,
+        "sensitivity": 1.5
+      }
+    }
+  },
+
+  "camera": {
+    "follow": {
+      "distance": 12,
+      "height": 4,
+      "lookAheadDistance": 5,
+      "smoothing": 0.1,
+      "shakeIntensity": 0.02
+    },
+    "fov": {
+      "default": 75,
+      "boost": 85,
+      "transitionSpeed": 2.0
+    },
+    "angles": [
+      { "name": "chase", "distance": 12, "height": 4, "angle": 0 },
+      { "name": "close", "distance": 6, "height": 2, "angle": 0 },
+      { "name": "far", "distance": 20, "height": 8, "angle": 0 },
+      { "name": "cockpit", "distance": 0, "height": 0.5, "angle": 0, "firstPerson": true }
+    ]
+  },
+
+  "performance": {
+    "graphics": {
+      "quality": {
+        "low": {
+          "shadowQuality": "none",
+          "particleCount": 500,
+          "postProcessing": false,
+          "textureResolution": 512,
+          "viewDistance": 500
+        },
+        "medium": {
+          "shadowQuality": "low",
+          "particleCount": 1000,
+          "postProcessing": true,
+          "textureResolution": 1024,
+          "viewDistance": 1000
+        },
+        "high": {
+          "shadowQuality": "high",
+          "particleCount": 2000,
+          "postProcessing": true,
+          "textureResolution": 2048,
+          "viewDistance": 2000
+        },
+        "ultra": {
+          "shadowQuality": "ultra",
+          "particleCount": 3000,
+          "postProcessing": true,
+          "textureResolution": 4096,
+          "viewDistance": 3000
+        }
+      }
+    },
+    "optimizations": {
+      "objectPooling": true,
+      "frustumCulling": true,
+      "occlusionCulling": false,
+      "lodSystem": true,
+      "instancedRendering": true,
+      "textureAtlasing": true
+    }
+  },
+
+  "monetization": {
+    "model": "free_to_play",
+    "currencies": {
+      "credits": {
+        "earnRate": 100,
+        "purchaseable": false
+      },
+      "gems": {
+        "earnRate": 0,
+        "purchaseable": true
+      }
+    },
+    "shop": {
+      "premiumColors": [
+        { "id": "chrome", "name": "Chrome", "price": 500, "currency": "gems" },
+        { "id": "holographic", "name": "Holographic", "price": 1000, "currency": "gems" }
+      ],
+      "premiumTrails": [
+        { "id": "void_tear", "name": "Void Tear", "price": 750, "currency": "gems" }
+      ],
+      "xpBoosts": [
+        { "duration": 3600, "multiplier": 2, "price": 100, "currency": "gems" }
+      ]
+    }
+  },
+
+  "analytics": {
+    "trackEvents": [
+      "race_started",
+      "race_completed",
+      "race_abandoned",
+      "collision",
+      "powerup_used",
+      "perfect_drift",
+      "track_unlocked",
+      "level_up",
+      "achievement_unlocked"
+    ],
+    "sessionTracking": true,
+    "performanceMonitoring": true
+  }
+}
