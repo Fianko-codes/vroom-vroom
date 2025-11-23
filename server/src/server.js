@@ -4,6 +4,7 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const CANNON = require('cannon-es');
 
 const app = express();
 app.use(cors());
@@ -44,6 +45,31 @@ io.on('connection', (socket) => {
         io.emit('input_echo', { id: socket.id, ...data });
     });
 });
+
+// --- Physics Setup ---
+const world = new CANNON.World({
+    gravity: new CANNON.Vec3(0, -9.82, 0), // m/s²
+});
+
+const carBody = new CANNON.Body({
+    mass: 850, // kg
+    position: new CANNON.Vec3(0, 5, 0), // m
+    shape: new CANNON.Box(new CANNON.Vec3(1, 0.5, 2)), // Half extents (2x1x4 total)
+});
+world.addBody(carBody);
+
+// --- Game Loop ---
+const timeStep = 1 / 60; // seconds
+let frameCount = 0;
+
+setInterval(() => {
+    world.step(timeStep);
+    frameCount++;
+
+    if (frameCount % 60 === 0) {
+        console.log(`Car Y: ${carBody.position.y.toFixed(2)}`);
+    }
+}, 1000 / 60);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {

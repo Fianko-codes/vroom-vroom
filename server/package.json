@@ -1,14 +1,15 @@
 {
-  "name": "void-drifters-server",
-  "version": "1.0.0",
-  "description": "Game server for Void Drifters",
-  "main": "src/server.js",
-  "scripts": {
-    "start": "node src/server.js"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "socket.io": "^4.7.2"
-  }
+    "name": "void-drifters-server",
+    "version": "1.0.0",
+    "description": "Game server for Void Drifters",
+    "main": "src/server.js",
+    "scripts": {
+        "start": "node src/server.js"
+    },
+    "dependencies": {
+        "cannon-es": "^0.20.0",
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "socket.io": "^4.7.2"
+    }
 }
